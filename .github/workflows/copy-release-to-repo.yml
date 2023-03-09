@@ -1,0 +1,23 @@
+name: Copy release file to repository
+on:
+  release:
+    types: [created]
+
+jobs:
+  copy_release_file:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Copy release file
+      run: |
+        # Find the latest release folder
+        release_folder=$(find . -type d -name "v*" | sort -V | tail -n 1)
+        # Find the file name that ends with ".exe" in the release folder
+        file_name=$(find $release_folder -name '*.exe' | head -n 1)
+        # Replace `source` with the path to the file in the release
+        source="$file_name"
+        # Set the destination to the root of the repository
+        destination="./"
+        cp $source $destination
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
