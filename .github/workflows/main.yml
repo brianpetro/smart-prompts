@@ -1,0 +1,23 @@
+name: Copy Release Files
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  copy_release_files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Release
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - name: Copy Files
+        run: |
+          cp -r * /brianpetro/smart-prompts
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'Copy release files'
+          commit_user_name: 'GitHub Actions'
+          commit_user_email: 'actions@github.com'
