@@ -17,7 +17,7 @@ jobs:
         file_name=$(find $release_folder -name '*.exe' | head -n 1)
         echo "File name: $file_name"
         # Replace `source` with the path to the file in the release
-        source="$file_name"
+        source="$release_folder/$file_name"
         # Set the destination to the root of the repository
         destination="./$file_name"
         cp $source $destination
